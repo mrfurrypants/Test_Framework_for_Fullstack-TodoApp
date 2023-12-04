@@ -14,27 +14,27 @@ public class LoginPage {
     }
 
     /* Elements present on WelcomePage */
-    String getstarted_button = "//*[text()=\"Get Started\"]";
+    private final String getstarted_button = "//*[text()=\"Get Started\"]";
 
     /* Elements present on LoginPage */
-    String email_field = "//*[@placeholder=\"example@gmail.com\"]";
-    String password_field = "//*[@placeholder=\"Input password here\"]";
-    String login_button = "//*[text()=\"Login\"]";
-    String signup_link = "//*[text()=\"Sign up here\"]";
+    private final String email_field = "//*[@placeholder=\"example@gmail.com\"]";
+    private final String password_field = "//*[@placeholder=\"Input password here\"]";
+    private final String login_button = "//*[text()=\"Login\"]";
+    private final String signup_link = "//*[text()=\"Sign up here\"]";
 
     /* Actions performed on identified elements */
-    public void enterEmail() {
-        $x(email_field).sendKeys(ConfigProvider.DEMO_LOGIN);
+    public void enterEmail(String email) {
+        $x(email_field).sendKeys(email);
     }
-    public void enterPassword() {
-        $x(password_field).sendKeys(ConfigProvider.DEMO_PASSWORD);
+    public void enterPassword(String password) {
+        $x(password_field).sendKeys(password);
     }
     public void clickLoginButton() {
         $x(login_button).click();
     }
-    public void login() {
-        enterEmail();
-        enterPassword();
+    public void login(String email, String password) {
+        enterEmail(email);
+        enterPassword(password);
         clickLoginButton();
     }
 }

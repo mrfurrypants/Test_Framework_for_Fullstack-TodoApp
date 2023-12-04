@@ -1,6 +1,7 @@
 package ui;
-
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Disabled;
+import readProperties.ConfigProvider;
 import ui.Page_Objects.LoginPage;
 import ui.Page_Objects.ProjectsPage;
 import ui.Page_Objects.TasksPage;
@@ -9,15 +10,15 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test01_login() {
         LoginPage loginPage = new LoginPage();
-        loginPage.enterEmail();
-        loginPage.enterPassword();
+        loginPage.enterEmail(ConfigProvider.DEMO_EMAIL);
+        loginPage.enterPassword(ConfigProvider.DEMO_PASSWORD);
         loginPage.clickLoginButton();
     }
 
     @Test
     public void test02_addProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
+        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -32,24 +33,21 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test03_editLatestProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
-
+        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
-
         ProjectsPage projectsPage = new ProjectsPage();
         projectsPage.addProject();
-
         projectsPage.clickLatestEditProject_button();
-        projectsPage.inputNewProjectName_field();
-        projectsPage.inputNewProjectDescription_field();
+        projectsPage.inputNewProjectName_field("Hello1");
+        projectsPage.inputNewProjectDescription_field("Hello1");
         projectsPage.clickSave_button();
     }
 
     @Test
     public void test04_deleteLatestProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
+        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -64,7 +62,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test05_addTaskToLatestProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
+        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -84,7 +82,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test06_editLatestTask() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
+        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -98,16 +96,16 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
 
         tasksPage.clickLatestEditTask_button();
 
-        tasksPage.inputNewTaskTitle_field();
-        tasksPage.inputNewDueDate_field();
-        tasksPage.inputNewDescription_textarea();
+        tasksPage.inputNewTaskTitle_field("Qwerty1");
+        tasksPage.inputNewDueDate_field("23022020");
+        tasksPage.inputNewDescription_textarea("Qwerty1");
         tasksPage.clickSave_button();
     }
 
     @Test
     public void test07_markLatestTaskAsDone() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
+        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -126,7 +124,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test08_filterTasksByProjects() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
+        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -147,4 +145,5 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
         tasksPage.clickFilterProject_button(2);
         tasksPage.clickFilterProject_button(3);
     }
+
 }

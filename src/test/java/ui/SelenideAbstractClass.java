@@ -1,5 +1,7 @@
 package ui;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import readProperties.ConfigProvider;
 
 import com.codeborne.selenide.Configuration;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 import static io.restassured.RestAssured.given;
 
 abstract public class SelenideAbstractClass { /* This class is to be only inherited and not instantiated! */
-    protected static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     @BeforeAll
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
@@ -27,6 +29,7 @@ abstract public class SelenideAbstractClass { /* This class is to be only inheri
         /* No need in: @BeforeEach public void setUpEachTest() {driver = new ChromeDriver();} */
         Configuration.browserSize = screenSize.width + "x" + screenSize.height;
         Configuration.headless = false;
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
     @BeforeEach
     public void setUpEachTest() {
@@ -52,7 +55,7 @@ abstract public class SelenideAbstractClass { /* This class is to be only inheri
                 .baseUri(ConfigProvider.URL) /* set the base URI only for a single request. */
                 .header("Content-Type", "application/json")
                 .body("{\"email\":\"" +
-                        ConfigProvider.DEMO_LOGIN +
+                        ConfigProvider.DEMO_EMAIL +
                         "\",\"password\":\"" +
                         ConfigProvider.DEMO_PASSWORD +
                         "\"}")

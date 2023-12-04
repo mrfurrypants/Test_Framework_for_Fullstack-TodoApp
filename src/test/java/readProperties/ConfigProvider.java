@@ -8,6 +8,6 @@ public interface ConfigProvider {
         return ConfigFactory.load("tests.conf");
     }
     String URL = readConfig().getString("url");
-    String DEMO_LOGIN = readConfig().getString("usersCreds.demo.login");
+    String DEMO_EMAIL = readConfig().getString("usersCreds.demo.email");
     String DEMO_PASSWORD = readConfig().getString("usersCreds.demo.password");
 }

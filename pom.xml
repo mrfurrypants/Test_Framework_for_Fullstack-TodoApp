@@ -5,34 +5,58 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>Test_Framework_for_Fullstack-TodoApp</artifactId>
+    <artifactId>Test_Framework_for_Fullstack-TodoApp</artifactId> <!-- Name of the jar without version. -->
     <version>1.0-SNAPSHOT</version>
+
+    <name>Test_Framework_for_Fullstack-TodoApp</name>
+    <description>Test framework including essential modules: Selenide(Selenium), JUnit...</description>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
+        <!-- Specify version of Java among multiple versions of Java installed on PC. -->
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <allure.version>2.24.0</allure.version>
+        <aspectj.version>1.9.20.1</aspectj.version>
+        <junit.version>5.10.0</junit.version>
+        <rest-assured.version>5.3.0</rest-assured.version>
+        <selenium.version>4.15.0</selenium.version>
+        <selenide.version>7.0.3</selenide.version>
     </properties>
 
-    <dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies> <!-- Libraries / modules used by test-code (test-code depends on libraries / modules). -->
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-remote-driver</artifactId>
-            <version>RELEASE</version>
+            <!-- Has ability to take full-screen screenshots using CDP. "selenide-full-screenshot" dependency is redundant. -->
+            <version>${selenide.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>RELEASE</version>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-driver</artifactId>
+            <version>${selenium.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -42,56 +66,121 @@
             <!-- To use: import io.github.bonigarcia.wdm.WebDriverManager; -->
             <!-- Instead of "selenium-chrome-driver" dependency and System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe"); -->
             <!-- To set the system property "webdriver.chrome.driver" to the path where the chromedriver executable is MANUALLY located. -->
-            <version>RELEASE</version>
+            <version>5.6.2</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>RELEASE</version>
+            <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+<!--JUnit 5 Dependencies-->
         <dependency>
             <!-- Maven automatically fetches JUnit library and include it in the classpath for your test classes. -->
             <groupId>org.junit.jupiter</groupId>
             <!-- Including the "junit-jupiter" dependency for access to the entire JUnit 5 framework, including components: -->
             <!-- JUnit Jupiter, JUnit Platform and JUnit Vintage needed for writing and executing JUnit tests. -->
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <!-- "junit-jupiter" automatically pulls artifacts: -->
+            <!-- •"junit-jupiter-api" -->
+            <!-- •"junit-jupiter-engine" -->
+            <version>${junit.version}</version>
             <scope>test</scope>
             <!-- Means that this dependency won't be included in the production code or the final executable JAR file -->
             <!-- by separating the test dependencies from compile dependencies (without <scope>test it is treated as compile). -->
         </dependency>
-        <!-- Or separate artifactId "junit-jupiter" into 2 separate dependencies: -->
-        <!-- "junit-jupiter-api" and "junit-jupiter-engine" to use different versions of them. -->
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId> <!-- Access to the parameterized testing features. -->
-            <version>RELEASE</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.typesafe/config -->
+<!--Allure Reporting Dependencies-->
         <dependency>
-            <groupId>com.typesafe</groupId>
-            <artifactId>config</artifactId>
-            <version>RELEASE</version>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
+            <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-selenide</artifactId>
+            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-assertj</artifactId>
+            <!-- Provides additional functionality for tests to automatically pick up the results of the assertions and include them in the test report. -->
+            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <plugins>
+        <plugins><!-- Plugins to compile .java files, to run unit tests, to create JAR files. Test-code doesn't depend on plugins. -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <!-- Responsible for Unit-test execution and failing the build process if there are test failures. -->
                 <version>3.0.0-M7</version>
+
+                <configuration>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+
+                    <systemPropertyVariables><!-- Set up system properties for the JVM that runs the tests. -->
+                        <selenide.timeout>4000</selenide.timeout><!-- com.codeborne.selenide.Configuration.timeout = 4000; -->
+                    </systemPropertyVariables>
+
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>io.qameta.allure.junit5.AllureJunit5</value>
+                        </property>
+                    </properties>
+
+                </configuration>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <!-- To enable AspectJ weaving (the modification of the byte code) in test-code at runtime during the TEST PHASE of build. -->
+                        <!-- To set up AspectJ for @Step and @Attachment annotations support. -->
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
+
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>3.0.0-M7</version>
+            </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <!-- Added as a plugin because it’s a tool providing functionality to the build process, not a library that test-code depends on. -->
+                <version>2.12.0</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+<!--                    <resultsDirectory>allure-results</resultsDirectory>-->
+                </configuration>
             </plugin>
         </plugins>
     </build>
