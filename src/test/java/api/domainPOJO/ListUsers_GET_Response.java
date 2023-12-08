@@ -1,4 +1,4 @@
-package api.domain;
+package api.domainPOJO;
 
 public class ListUsers_GET_Response {
     public ListUsers_GET_Response() {

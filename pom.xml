@@ -25,7 +25,7 @@
         <selenide.version>7.0.3</selenide.version>
     </properties>
 
-    <dependencyManagement>
+    <dependencyManagement><!-- To ensure correct versions of all the dependencies are used. -->
         <dependencies>
             <dependency>
                 <groupId>io.qameta.allure</groupId>
@@ -38,6 +38,26 @@
     </dependencyManagement>
 
     <dependencies> <!-- Libraries / modules used by test-code (test-code depends on libraries / modules). -->
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ozlerhakan</groupId>
+            <artifactId>poiji</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.14.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
@@ -103,30 +123,36 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-<!--Allure Reporting Dependencies-->
+<!--Allure Reporting Dependencies without <version>-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
-            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit-platform</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
-            <version>${allure.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-assertj</artifactId>
             <!-- Provides additional functionality for tests to automatically pick up the results of the assertions and include them in the test report. -->
-            <version>${allure.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-rest-assured</artifactId>
-            <version>${allure.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -146,6 +172,7 @@
 
                     <systemPropertyVariables><!-- Set up system properties for the JVM that runs the tests. -->
                         <selenide.timeout>4000</selenide.timeout><!-- com.codeborne.selenide.Configuration.timeout = 4000; -->
+                        <!-- ".shouldHave(text("expected text"), Duration.ofSeconds(10))" overrides  default timeout set. -->
                     </systemPropertyVariables>
 
                     <properties>

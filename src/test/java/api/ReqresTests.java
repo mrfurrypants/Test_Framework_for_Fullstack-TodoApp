@@ -1,5 +1,5 @@
 package api;
-import api.domain.ListUsers_GET_Response; /* There is need to import it explicitly, as Class is located in another package. */
+import api.domainPOJO.ListUsers_GET_Response; /* There is need to import it explicitly, as Class is located in another package. */
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,24 +1,40 @@
 package ui;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.junit5.ScreenShooterExtension;
+import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import readProperties.ConfigProvider;
 import ui.Page_Objects.LoginPage;
 import ui.Page_Objects.ProjectsPage;
 import ui.Page_Objects.TasksPage;
 import org.junit.jupiter.api.Test;
+
+import java.util.stream.Stream;
+
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
+
+@ExtendWith(ScreenShooterExtension.class)
 public class MainFunctionalityTestClass extends SelenideAbstractClass {
+    @Owner("Paul")
     @Test
     public void test01_login() {
-        LoginPage loginPage = new LoginPage();
-        loginPage.enterEmail(ConfigProvider.DEMO_EMAIL);
-        loginPage.enterPassword(ConfigProvider.DEMO_PASSWORD);
-        loginPage.clickLoginButton();
-    }
+        Selenide.open(ConfigProvider.URL);
 
-    @Test
-    public void test02_addProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
+
+        loginPage.clickGetstarted_button();
+
+        loginPage.enterEmail(ConfigProvider.DEMO_EMAIL);
+
+        loginPage.enterPassword(ConfigProvider.DEMO_PASSWORD);
+
+        loginPage.clickLoginButton();
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -28,12 +44,29 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
         projectsPage.inputProjectName_field();
         projectsPage.inputProjectDescription_field();
         projectsPage.clickSave_button();
+        $x("//div[@class='bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3']").shouldBe(visible);
+    }
+
+    @Test
+    public void test02_addProject() {
+        LoginPage loginPage = new LoginPage();
+        loginPage.login();
+
+        TasksPage tasksPage = new TasksPage();
+        tasksPage.clickProject_button();
+
+        ProjectsPage projectsPage = new ProjectsPage();
+        projectsPage.clickNewProject_button();
+        projectsPage.inputProjectName_field();
+        projectsPage.inputProjectDescription_field();
+        projectsPage.clickSave_button();
+        $x("//div[@class='bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3']").shouldBe(visible);
     }
 
     @Test
     public void test03_editLatestProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
+        loginPage.login();
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
         ProjectsPage projectsPage = new ProjectsPage();
@@ -47,7 +80,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test04_deleteLatestProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
+        loginPage.login();
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -62,7 +95,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test05_addTaskToLatestProject() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
+        loginPage.login();
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -82,7 +115,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test06_editLatestTask() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
+        loginPage.login();
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -105,7 +138,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test07_markLatestTaskAsDone() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
+        loginPage.login();
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
@@ -124,7 +157,7 @@ public class MainFunctionalityTestClass extends SelenideAbstractClass {
     @Test
     public void test08_filterTasksByProjects() {
         LoginPage loginPage = new LoginPage();
-        loginPage.login(ConfigProvider.DEMO_EMAIL, ConfigProvider.DEMO_PASSWORD);
+        loginPage.login();
 
         TasksPage tasksPage = new TasksPage();
         tasksPage.clickProject_button();
