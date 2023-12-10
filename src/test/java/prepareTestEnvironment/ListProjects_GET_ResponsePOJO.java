@@ -1,5 +1,5 @@
-package ui;
-public class ListProjects_GET_Response {
+package prepareTestEnvironment;
+public class ListProjects_GET_ResponsePOJO {
     private String description;
     private Integer id;
     private String name;

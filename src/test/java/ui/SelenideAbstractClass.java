@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Owner;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +28,6 @@ abstract public class SelenideAbstractClass { /* This class is to be only inheri
         WebDriverManager.chromedriver().setup();
         Configuration.browser = "chrome";
         /* By default Selenide launches the firefox browser. */
-        /* Selenide automatically opens the browser for each test and closes it after the test is done. */
         /* No need in: @BeforeEach public void setUpEachTest() {driver = new ChromeDriver();} */
         Configuration.browserSize = screenSize.width + "x" + screenSize.height;
         Configuration.headless = false;
@@ -39,7 +39,8 @@ abstract public class SelenideAbstractClass { /* This class is to be only inheri
     }
     @AfterEach
     public void tearDown() {
-        Selenide.closeWebDriver();
+        Selenide.closeWebDriver();/* To explicitly close the WebDriver instance. */
+        /* Selenide by default creates the WebDriver instance for each test and closes only browser window after the test is done. */
     }
     /* Helpers */
     public static void delay() {

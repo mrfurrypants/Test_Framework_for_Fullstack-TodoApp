@@ -7,7 +7,7 @@ public class tasks_providerPOJO1 {
     @ExcelCellName("Task_title")
     private String Task_title;
     @ExcelCellName("Due_date")
-    private int Due_date;
+    private String Due_date;
     @ExcelCellName("Description")
     private String Description;
 
@@ -19,11 +19,11 @@ public class tasks_providerPOJO1 {
         Task_title = task_title;
     }
 
-    public int getDue_date() {
+    public String getDue_date() {
         return Due_date;
     }
 
-    public void setDue_date(int due_date) {
+    public void setDue_date(String due_date) {
         Due_date = due_date;
     }
 
