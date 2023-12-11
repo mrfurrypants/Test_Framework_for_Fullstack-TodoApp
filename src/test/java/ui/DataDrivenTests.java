@@ -18,9 +18,14 @@ import ui.Page_Objects.ProjectsPage;
 import ui.Page_Objects.TasksPage;
 
 import java.awt.*;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Selenide.$x;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static readDataFromXLSX.XLSX_to_POJOs.xlsxDataToListOfPOJOs;
 
 @ExtendWith(ScreenShooterExtension.class)
@@ -61,7 +66,7 @@ public class DataDrivenTests {
     @ParameterizedTest(name = "Invocation N°{index}")
     @MethodSource("streamForParameterizedTest")
     @Tag("DataDrivenTest")
-    @DisplayName("Simple Excel Test")
+    @DisplayName("Verify that the user can add multiple “Tasks” to existing “Project”")
     public void exceltest(tasks_providerPOJO1 row){
         TasksPage.clickProject_button();
 
@@ -78,6 +83,19 @@ public class DataDrivenTests {
         TasksPage.selectLatestProjectFrom_dropdown();
         TasksPage.inputDescription_textarea(row.getDescription());
         TasksPage.clickSave_button();
+        delay();
+        String actualTaskTitle = $x(TasksPage.getTask_block() + "[last()]/h3").getText().split("\n")[0];
+        assertEquals(row.getTask_title(), actualTaskTitle);
     }
 
+    /**
+     * Method used to handle sync. issues.
+     */
+    public static void delay() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

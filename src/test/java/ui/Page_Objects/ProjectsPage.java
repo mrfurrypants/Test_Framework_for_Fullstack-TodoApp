@@ -6,21 +6,11 @@ import java.util.concurrent.TimeUnit;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class ProjectsPage {
-    public static void delay() {
-        Random rand = new Random();
-        int delayInSeconds = rand.nextInt(2) + 1; // This will generate a random number between 2 and 4.
-        try {
-            TimeUnit.SECONDS.sleep(delayInSeconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     /* Elements present in the header of ProjectsPage */
     private static final String dropdown = "//*[@class=\"dropdown\"]";
     private static final String logoPacToDo_button = "//*[text()=\"PacToDo\"]";
     private static final String task_button = "(//*[text()=\"Task\"])[2]";
-    private static final String logout_button = "//*[text()=\"Logout\"]";
+    private static final String logout_button = "(//*[text() = 'Logout'])[2]";
     private static final String newProject_button = "//*[text()=\"NEW PROJECT\"]";
 
     /* Elements present in the ProjectsPage */
@@ -30,6 +20,10 @@ public class ProjectsPage {
     private static final String latestEditProject_button = "((//*[@class=\"bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3\"])[last()]//button)[1]";
     private static final String latestDeleteProject_button = "((//*[@class=\"bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3\"])[last()]//button)[2]";
     private static final String confirm_button = "//*[text()=\"Confirm\"]";
+    private static final String project_block = "//div[@class='bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3']";
+    public static String getProject_block() {
+        return project_block;
+    }
 
     /* Actions performed on identified elements */
     public static void clickNewProject_button() {

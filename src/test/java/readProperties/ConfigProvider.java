@@ -8,6 +8,9 @@ public interface ConfigProvider {
         return ConfigFactory.load("tests.conf");
     }
     String URL = readConfig().getString("url");
-    String DEMO_EMAIL = readConfig().getString("usersCreds.demo.email");
-    String DEMO_PASSWORD = readConfig().getString("usersCreds.demo.password");
+    String USER_NAME = readConfig().getString("user_name");
+    String VALID_EMAIL = readConfig().getString("usersCreds.validCredentials.email");
+    String VALID_PASSWORD = readConfig().getString("usersCreds.validCredentials.password");
+    String INVALID_EMAIL = readConfig().getString("usersCreds.invalidCredentials.email");
+    String INVALID_PASSWORD = readConfig().getString("usersCreds.invalidCredentials.password");
 }

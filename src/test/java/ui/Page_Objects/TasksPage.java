@@ -5,38 +5,38 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class TasksPage {
-    /**
-     * Method used to handle sync. issues.
-     */
-    public static void delay() {
-        Random rand = new Random();
-        int delayInSeconds = rand.nextInt(2) + 1; // This will generate a random number between 2 and 4.
-        try {
-            TimeUnit.SECONDS.sleep(delayInSeconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
     /* Elements present in the header of TasksPage */
     private static final String dropdown = "//*[@class=\"dropdown\"]";
     private static final String logoPacToDo_button = "//*[text()=\"PacToDo\"]";
     private static final String project_button = "(//*[text()=\"Project\"])[2]";
-    private static final String logout_button = "//*[text()=\"Logout\"]";
+    private static final String logout_button = "(//*[text()='Logout'])[2]";
+    public static String getLogout_button() {
+        return logout_button;
+    }
     private static final String newTask_button = "//*[text()=\"NEW TASK\"]";
+
+    private static final String confirm_button = "//*[text()=\"Confirm\"]";
 
     /* Elements present in the "Add task" and "Edit task" modal widow */
     private static final String taskTitle_field = "//*[@placeholder=\"Input task title\"]";
     private static final String dueDate_field = "//input[@type=\"date\"]";
     private static final String selectProject_dropdown = "//select";
     private static final String description_textarea = "//textarea";
-    private static final String save_button = "//*[text()=\"Save\"]";
+    private static final String save_button = "//*[text()='Save']";
 
     /* Elements present in the TasksPage */
-    private static final String latestEditTask_button = "((//div[@class=\"bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3 \"])[last()]//button)[2]";
-    private static final String latestCheckmark_button = "((//div[@class=\"bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3 \"])[last()]//button)[1]";
+    private static final String task_block = "//div[contains(@class, 'bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3 ')]";
+    public static String getTask_block() {
+        return task_block;
+    }
+    private static final String latestDeleteTask_button = task_block + "[last()]/div/button[3]";
+    private static final String latestEditTask_button = task_block + "[last()]/div/button[2]";
+    private static final String latestCheckmark_button = task_block + "[last()]/div/button[1]";
+
     /* Actions performed on identified elements */
     public static void clickProject_button() {
         $x(project_button).click();
@@ -88,6 +88,9 @@ public class TasksPage {
         clickSave_button();
     }
 
+    public static void clickLatestDeleteTask_button(){
+        $x(latestDeleteTask_button).click();
+    }
     public static void clickLatestEditTask_button(){
         $x(latestEditTask_button).click();
     }
@@ -109,5 +112,8 @@ public class TasksPage {
     public static void clickFilterProject_button(int project) {
         String filterProject_button = "(//div[@class=\"flex justify-center flex-wrap gap-2 my-2 sm:p-3\"]/button)[" + project + "]";
         $x(filterProject_button).click();
+    }
+    public static void clickConfirm_button() {
+        $x(confirm_button).click();
     }
 }

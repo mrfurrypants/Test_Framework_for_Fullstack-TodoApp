@@ -34,9 +34,9 @@ public class PrepareTestEnvironment {
                 .baseUri(ConfigProvider.URL) /* set the base URI only for a single request. */
                 .header("Content-Type", "application/json")
                 .body("{\"email\":\"" +
-                        ConfigProvider.DEMO_EMAIL +
+                        ConfigProvider.VALID_EMAIL +
                         "\",\"password\":\"" +
-                        ConfigProvider.DEMO_PASSWORD +
+                        ConfigProvider.VALID_PASSWORD +
                         "\"}")
                 .when()
                 .post("api/auth/login")

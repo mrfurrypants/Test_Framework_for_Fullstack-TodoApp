@@ -20,6 +20,11 @@ public class LoginPage {
     private static final String password_field = "//*[@placeholder=\"Input password here\"]";
     private static final String login_button = "//*[text()=\"Login\"]";
     private static final String signup_link = "//*[text()=\"Sign up here\"]";
+    private static final String validation_popup = "//span[text()='Email or password is invalid']";
+
+    public static String getValidation_popup() {
+        return validation_popup;
+    }
 
     /* Actions performed on identified elements */
     public static void clickGetstarted_button() {
@@ -31,9 +36,13 @@ public class LoginPage {
     public static void enterPassword(String password) {
         $x(password_field).sendKeys(password);
     }
-    public static void clickLoginButton() {
+    public static void clickLogin_button() {
         $x(login_button).click();
     }
+    public static void clickSignup_button() {
+        $x(signup_link).click();
+    }
+
 
     public static void login() {
         var jsonResponseAsMap = PrepareTestEnvironment.getJsonResponseAsMap();
@@ -47,14 +56,5 @@ public class LoginPage {
 
         Selenide.open(ConfigProvider.URL + "#/tasks");
         Selenide.refresh();
-    }
-    public static void delay() {
-        Random rand = new Random();
-        int delayInSeconds = rand.nextInt(2)/* From 0 to 2, excl. 3 */ + 1; // This will generate a random number between 2 and 4.
-        try {
-            TimeUnit.SECONDS.sleep(delayInSeconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

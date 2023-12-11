@@ -42,15 +42,4 @@ abstract public class SelenideAbstractClass { /* This class is to be only inheri
         Selenide.closeWebDriver();/* To explicitly close the WebDriver instance. */
         /* Selenide by default creates the WebDriver instance for each test and closes only browser window after the test is done. */
     }
-    /* Helpers */
-    public static void delay() {
-        Random rand = new Random();
-        int delayInSeconds = rand.nextInt(2)/* From 0 to 2, excl. 3 */ + 1; // This will generate a random number between 2 and 4.
-        try {
-            TimeUnit.SECONDS.sleep(delayInSeconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
