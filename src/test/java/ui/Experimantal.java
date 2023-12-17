@@ -20,19 +20,6 @@ public class Experimantal {
 
     @Test
     public void chch() {
-        Selenide.open("http://localhost/#/tasks");
 
-        var cookiePayload = PrepareTestEnvironment.getJsonResponseAsMap();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonPayload = null;
-        try {
-            jsonPayload = objectMapper.writeValueAsString(cookiePayload);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        Selenide.executeJavaScript("localStorage.setItem('loggedAppUser', '"+ jsonPayload +"');");
-        Selenide.open("http://localhost/#/tasks");
-
-        TasksPage.clickProject_button();
     }
 }

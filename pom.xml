@@ -34,6 +34,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -49,13 +56,6 @@
             <groupId>com.github.ozlerhakan</groupId>
             <artifactId>poiji</artifactId>
             <version>4.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>7.14.0</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -102,6 +102,19 @@
             <artifactId>config</artifactId>
             <version>1.4.3</version>
         </dependency>
+<!--Cucumber Dependencies-->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.14.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>7.14.0</version>
+            <scope>test</scope>
+        </dependency>
 <!--JUnit 5 Dependencies-->
         <dependency>
             <!-- Maven automatically fetches JUnit library and include it in the classpath for your test classes. -->
@@ -112,7 +125,6 @@
             <!-- "junit-jupiter" automatically pulls artifacts: -->
             <!-- •"junit-jupiter-api" -->
             <!-- •"junit-jupiter-engine" -->
-            <version>${junit.version}</version>
             <scope>test</scope>
             <!-- Means that this dependency won't be included in the production code or the final executable JAR file -->
             <!-- by separating the test dependencies from compile dependencies (without <scope>test it is treated as compile). -->
@@ -120,7 +132,11 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId> <!-- Access to the parameterized testing features. -->
-            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
             <scope>test</scope>
         </dependency>
 <!--Allure Reporting Dependencies without <version>-->

@@ -33,7 +33,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         RegisterPage.enterPassword(ConfigProvider.VALID_PASSWORD);
         RegisterPage.retypePassword(ConfigProvider.VALID_PASSWORD);
         RegisterPage.clickSignup_button();
-        $x(RegisterPage.getRegCompleted_popup()).shouldBe(visible);
+        RegisterPage.getRegCompleted_popup().shouldBe(visible);
     }
 
     @DisplayName("02. Verify that the user can't sign-up using already taken credentials")
@@ -48,7 +48,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         RegisterPage.enterPassword(ConfigProvider.VALID_PASSWORD);
         RegisterPage.retypePassword(ConfigProvider.VALID_PASSWORD);
         RegisterPage.clickSignup_button();
-        $x(RegisterPage.getRegNotCompleted_popup()).shouldBe(visible);
+        RegisterPage.getRegNotCompleted_popup().shouldBe(visible);
     }
 
     @DisplayName("03. Verify that the user can log-in using valid credentials")
@@ -60,7 +60,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         LoginPage.enterEmail(ConfigProvider.VALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.VALID_PASSWORD);
         LoginPage.clickLogin_button();
-        $x(TasksPage.getLogout_button()).shouldBe(visible);
+        TasksPage.getLogout_button().shouldBe(visible);
     }
 
     @DisplayName("04. Verify that the user can't log-in using invalid email")
@@ -72,7 +72,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         LoginPage.enterEmail(ConfigProvider.INVALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.VALID_PASSWORD);
         LoginPage.clickLogin_button();
-        $x(LoginPage.getValidation_popup()).shouldBe(visible);
+        LoginPage.getValidation_popup().shouldBe(visible);
     }
 
     @DisplayName("05. Verify that the user can't log-in using invalid password")
@@ -84,7 +84,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         LoginPage.enterEmail(ConfigProvider.VALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.INVALID_PASSWORD);
         LoginPage.clickLogin_button();
-        $x(LoginPage.getValidation_popup()).shouldBe(visible);
+        LoginPage.getValidation_popup().shouldBe(visible);
     }
 
     @DisplayName("06. Verify that the user can't log-in using invalid credentials")
@@ -96,7 +96,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         LoginPage.enterEmail(ConfigProvider.INVALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.INVALID_PASSWORD);
         LoginPage.clickLogin_button();
-        $x(LoginPage.getValidation_popup()).shouldBe(visible);
+        LoginPage.getValidation_popup().shouldBe(visible);
     }
 
     @DisplayName("07. Verify that the user can create new “Project”")
@@ -109,7 +109,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.inputProjectName_field();
         ProjectsPage.inputProjectDescription_field();
         ProjectsPage.clickSave_button();
-        $x(ProjectsPage.getProject_block()).shouldBe(visible);
+        ProjectsPage.getProject_block().shouldBe(visible);
     }
 
     @DisplayName("08. Verify that the user can make changes to existing “Project”")
@@ -123,8 +123,8 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.inputProjectName_field("Hello1");
         ProjectsPage.inputProjectDescription_field("Hello1");
         ProjectsPage.clickSave_button();
-        String actualProjectTitle = $x(ProjectsPage.getProject_block() + "/h3").getText();
-        String actualProjectDescription = $x(ProjectsPage.getProject_block() + "/p").getText();
+        String actualProjectTitle = $x(ProjectsPage.getProject_block_xpath() + "/h3").getText();
+        String actualProjectDescription = $x(ProjectsPage.getProject_block_xpath() + "/p").getText();
         assertAll( /* If single assertion fails within the assertAll block, the subsequent assertions will still be executed. */
                 () -> assertEquals("Hello1", actualProjectTitle),
                 () -> assertEquals("Hello1", actualProjectDescription)
@@ -140,7 +140,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.addProject();
         ProjectsPage.clickLatestDeleteProject_button();
         ProjectsPage.clickConfirm_button();
-        $x(ProjectsPage.getProject_block()).shouldNotBe(exist);
+        ProjectsPage.getProject_block().shouldNotBe(exist);
     }
 
     @DisplayName("10. Verify that the user can add “Task” to existing “Project”")
@@ -157,7 +157,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         TasksPage.selectLatestProjectFrom_dropdown();
         TasksPage.inputDescription_textarea();
         TasksPage.clickSave_button();
-        $x(TasksPage.getTask_block()).shouldBe(visible);
+        TasksPage.getTask_block().shouldBe(visible);
     }
 
     @DisplayName("11. Verify that the user can delete existing “Task”")
@@ -171,7 +171,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         TasksPage.addTaskToLatestProject();
         TasksPage.clickLatestDeleteTask_button();
         TasksPage.clickConfirm_button();
-        $x(TasksPage.getTask_block()).shouldNotBe(exist);
+        TasksPage.getTask_block().shouldNotBe(exist);
     }
 
     @DisplayName("12. Verify that the user can make changes to existing “Task”")
@@ -188,9 +188,9 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         TasksPage.inputDueDate_field("23022020");
         TasksPage.inputDescription_textarea("Qwerty");
         TasksPage.clickSave_button();
-        String actualTaskTitle = $x(TasksPage.getTask_block() + "/h3").getText().split("\n")[0];
-        String actualTaskDate = $x(TasksPage.getTask_block() + "/p[1]").getText().replaceAll("(\\D+)", "");
-        String actualTaskDescription = $x(TasksPage.getTask_block() + "/p[2]").getText();
+        String actualTaskTitle = $x(TasksPage.getTask_block_xpath() + "/h3").getText().split("\n")[0];
+        String actualTaskDate = $x(TasksPage.getTask_block_xpath() + "/p[1]").getText().replaceAll("(\\D+)", "");
+        String actualTaskDescription = $x(TasksPage.getTask_block_xpath() + "/p[2]").getText();
         assertAll( /* If single assertion fails within the assertAll block, the subsequent assertions will still be executed. */
                 () -> assertEquals("Qwerty1", actualTaskTitle),
                 () -> assertEquals("23022020", actualTaskDate),
@@ -208,7 +208,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.clickTask_button();
         TasksPage.addTaskToLatestProject();
         TasksPage.clickLatestCheckmark_button();
-        String attribute = $x(TasksPage.getTask_block()).getAttribute("class");
+        String attribute = TasksPage.getTask_block().getAttribute("class");
         String classTag = "bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3";
         assertEquals(attribute, classTag + " line-through", "Task wasn't crossed out");
     }
@@ -226,12 +226,12 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         TasksPage.addTasksToProjects(1);
         TasksPage.addTasksToProjects(2);
         TasksPage.addTasksToProjects(3);
-        assertEquals(3, $$x(TasksPage.getTask_block()).size());
+        assertEquals(3, $$x(TasksPage.getTask_block_xpath()).size());
         TasksPage.clickFilterProject_button(1);
-        assertEquals(1, $$x(TasksPage.getTask_block()).size());
+        assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
         TasksPage.clickFilterProject_button(2);
-        assertEquals(1, $$x(TasksPage.getTask_block()).size());
+        assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
         TasksPage.clickFilterProject_button(3);
-        assertEquals(1, $$x(TasksPage.getTask_block()).size());
+        assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
     }
 }

@@ -84,7 +84,7 @@ public class DataDrivenTests {
         TasksPage.inputDescription_textarea(row.getDescription());
         TasksPage.clickSave_button();
         delay();
-        String actualTaskTitle = $x(TasksPage.getTask_block() + "[last()]/h3").getText().split("\n")[0];
+        String actualTaskTitle = $x(TasksPage.getTask_block_xpath() + "[last()]/h3").getText().split("\n")[0];
         assertEquals(row.getTask_title(), actualTaskTitle);
     }
 

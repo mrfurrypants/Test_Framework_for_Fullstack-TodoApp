@@ -1,46 +1,42 @@
 package ui.Page_Objects;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import readProperties.ConfigProvider;
-
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
 import static com.codeborne.selenide.Selenide.$x;
-import static io.restassured.RestAssured.given;
 import prepareTestEnvironment.PrepareTestEnvironment;
 
 public class LoginPage {
 
     /* Elements present on WelcomePage */
-    private static final String getstarted_button = "//*[text()=\"Get Started\"]";
+    private static final SelenideElement getstarted_button = $x("//*[text()='Get Started']");
 
     /* Elements present on LoginPage */
-    private static final String email_field = "//*[@placeholder=\"example@gmail.com\"]";
-    private static final String password_field = "//*[@placeholder=\"Input password here\"]";
-    private static final String login_button = "//*[text()=\"Login\"]";
-    private static final String signup_link = "//*[text()=\"Sign up here\"]";
-    private static final String validation_popup = "//span[text()='Email or password is invalid']";
+    private static final SelenideElement email_field = $x("//*[@placeholder='example@gmail.com']");
+    private static final SelenideElement password_field = $x("//*[@placeholder='Input password here']");
+    private static final SelenideElement login_button = $x("//*[text()='Login']");
+    private static final SelenideElement signup_link = $x("//*[text()='Sign up here']");
+    private static final SelenideElement validation_popup = $x("//span[text()='Email or password is invalid']");
 
-    public static String getValidation_popup() {
+    public static SelenideElement getValidation_popup() {
         return validation_popup;
     }
 
     /* Actions performed on identified elements */
     public static void clickGetstarted_button() {
-        $x(getstarted_button).click();
+        getstarted_button.click();
     }
     public static void enterEmail(String email) {
-        $x(email_field).sendKeys(email);
+        email_field.sendKeys(email);
     }
     public static void enterPassword(String password) {
-        $x(password_field).sendKeys(password);
+        password_field.sendKeys(password);
     }
     public static void clickLogin_button() {
-        $x(login_button).click();
+        login_button.click();
     }
     public static void clickSignup_button() {
-        $x(signup_link).click();
+        signup_link.click();
     }
 
 
