@@ -1,15 +1,13 @@
-package BDDsteps;
+package ui.BDDsteps;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
 import readProperties.ConfigProvider;
 import ui.Page_Objects.LoginPage;
 import ui.Page_Objects.ProjectsPage;
