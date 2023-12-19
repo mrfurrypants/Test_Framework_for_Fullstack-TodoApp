@@ -2,6 +2,10 @@
 
 This JAVA based project is a testing framework for [Fullstack-TodoApp](https://github.com/naputami/Fullstack-TodoApp).
 
+Essential modules: Apache Maven, JUnit 5, Selenide, Cucumber, REST-Assured, Allure Report
+
+Key features of the project:
+
 - E2E Testing: Standard JUnit 5 Selenide UI tests covering the main app functionality.
 - Page Object Model Design Pattern: Each web page is represented by separate Page Class which encapsulates WebElements and operations on them.
 - BDD (Behavior-driven development): Cucumber framework layer is added on top of existing JUnit 5 Selenide UI tests by creating separate Cucumber test runner class for running Cucumber feature files.
@@ -13,19 +17,9 @@ This JAVA based project is a testing framework for [Fullstack-TodoApp](https://g
 
 ## Table of Contents
 
-1. [Essential Modules](#essential-modules)
-2. [Prerequisites](#prerequisites)
-3. [Installation & Setup](#installation-&-setup)
-4. [Running & Reporting Tests](#running-&-reporting-tests)
-
-## Essential Modules
-
-- Selenide: wrapper for Selenium WebDriver (browser automation framework for performing web tests).
-- Maven: build tool to resolve dependencies.
-- JUnit 5: testing framework providing annotations, assertions and test runners to specify, arrange and execute tests.
-- Cucumber: A BDD (Behavior-Driven Development) framework that uses Gherkin language to describe test scenarios in plain text.
-- REST-Assured: Java library for testing and validating RESTful APIs.
-- Allure Report: test automation report tool to create fancy and clear HTML-based reports.
+1. [Prerequisites](#prerequisites)
+2. [Installation & Setup](#installation-&-setup)
+3. [Running & Reporting Tests](#running-&-reporting-tests)
 
 ## Prerequisites
 
