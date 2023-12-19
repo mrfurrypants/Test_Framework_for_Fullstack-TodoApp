@@ -15,12 +15,6 @@ Key features of the project:
 - Configuration Management: loading and managing log-in data in configuration files by using the Typesafe Config library.
 - Test Reporting: Allure Report is integrated with JUnit 5, Selenide and Cucumber project modules.
 
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Installation & Setup](#installation-&-setup)
-3. [Running & Reporting Tests](#running-&-reporting-tests)
-
 ## Prerequisites
 
 Reqiured components to be installed on your machine:
