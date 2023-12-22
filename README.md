@@ -2,18 +2,26 @@
 
 This JAVA based project is a testing framework for [Fullstack-TodoApp](https://github.com/naputami/Fullstack-TodoApp).
 
-Essential modules: Apache Maven, JUnit 5, Selenide, Cucumber, REST-Assured, Allure Report
+Essential modules: _Apache Maven_, _JUnit 5_, _Selenide_, _Cucumber_, _REST-Assured_, _Allure Report_
 
 Key features of the project:
 
-- E2E Testing: Standard JUnit 5 Selenide UI tests covering the main app functionality.
-- Page Object Model Design Pattern: Each web page is represented by separate Page Class which encapsulates WebElements and operations on them.
-- BDD (Behavior-driven development): Cucumber framework layer is added on top of existing JUnit 5 Selenide UI tests by creating separate Cucumber test runner class for running Cucumber feature files.
-- Test environment preparation: mechanism written in REST-assured to achieve an empty application state by interaction with API before each subsequent UI test.
-- JWT token-based authentication handling: tokens retrieved using REST-Assured are passed to a browser’s local storage to speed up the login process and accelerate UI tests.
-- DDT (Data-driven testing): input data from XLSX file for parametrized test by using POIJI library.
-- Configuration Management: loading and managing log-in data in configuration files by using the Typesafe Config library.
-- Test Reporting: Allure Report is integrated with JUnit 5, Selenide and Cucumber project modules.
+#### - E2E Testing:
+Standard __JUnit 5__ __Selenide__ UI tests covering the main app functionality.
+#### - Page Object Model Design Pattern:
+Each web page is represented by separate Page Class which encapsulates WebElements and operations on them.
+#### - BDD (Behavior-driven development):
+__Cucumber__ framework layer is added on top of existing __JUnit 5__ __Selenide__ UI tests by creating separate __Cucumber__ test runner class for __Cucumber__ feature files.
+#### - Test environment preparation:
+Mechanism written in __REST-Assured__ to achieve an empty application state by interaction with API before each subsequent UI test.
+#### - JWT token-based authentication handling:
+Tokens retrieved using __REST-Assured__ are passed to a browser’s local storage to speed up the login process and accelerate UI tests.
+#### - DDT (Data-driven testing):
+Input data from XLSX file for parametrized test by using POIJI library.
+#### - Configuration Management:
+Loading and managing log-in data in configuration files by using the Typesafe Config library.
+#### - Test Reporting:
+__Allure Report__ is integrated with __JUnit 5__, __Selenide__ and __Cucumber__ project modules.
 
 ## Prerequisites
 
