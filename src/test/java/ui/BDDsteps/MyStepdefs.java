@@ -98,10 +98,7 @@ public class MyStepdefs {
     public void tearDown() {
         Selenide.closeWebDriver();
     }
-//    @Before
-//    public void tearDown() {
-//        Selenide.closeWebDriver();
-//    }
+
     @BeforeAll
     public static void setUpOnceBeforeAllScenarios() {
         WebDriverManager.chromedriver().setup();

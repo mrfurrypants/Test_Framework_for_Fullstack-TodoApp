@@ -125,7 +125,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.clickSave_button();
         String actualProjectTitle = $x(ProjectsPage.getProject_block_xpath() + "/h3").getText();
         String actualProjectDescription = $x(ProjectsPage.getProject_block_xpath() + "/p").getText();
-        assertAll( /* If single assertion fails within the assertAll block, the subsequent assertions will still be executed. */
+        assertAll(
                 () -> assertEquals("Hello1", actualProjectTitle),
                 () -> assertEquals("Hello1", actualProjectDescription)
         );

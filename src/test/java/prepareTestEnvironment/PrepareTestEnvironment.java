@@ -31,7 +31,7 @@ public class PrepareTestEnvironment {
 
     public static Map<String,String> getJsonResponseAsMap() {
         return given()
-                .baseUri(ConfigProvider.URL) /* set the base URI only for a single request. */
+                .baseUri(ConfigProvider.URL)
                 .header("Content-Type", "application/json")
                 .body("{\"email\":\"" +
                         ConfigProvider.VALID_EMAIL +
@@ -43,7 +43,7 @@ public class PrepareTestEnvironment {
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .extract().body().jsonPath().getMap(""); /* Methods to access values using json path of specific "key": getMap, getInt, getBoolean... */
+                .extract().body().jsonPath().getMap("");
     }
 
     public static void deleteSingleProject(Integer projectID, String jwtAccessToken) {

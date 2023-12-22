@@ -61,8 +61,6 @@ public class TasksPage {
         Select selectProjectDropdown = new Select(selectProject_dropdown);
         int optionsNumber = selectProjectDropdown.getOptions().size();
         selectProjectDropdown.selectByIndex(optionsNumber - 1);
-        /* Get methods are used to retrieve information about the dropdown, not to change the state of the dropdown. */
-        /* Select methods are used to change the state of the dropdown by selecting options. */
     }
     private static int tasksCounter2 = 1;
     public static void inputDescription_textarea() {

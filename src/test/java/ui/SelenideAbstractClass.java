@@ -21,14 +21,13 @@ import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 
-abstract public class SelenideAbstractClass { /* This class is to be only inherited and not instantiated! */
+abstract public class SelenideAbstractClass {
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     @BeforeAll
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
         Configuration.browser = "chrome";
         /* By default Selenide launches the firefox browser. */
-        /* No need in: @BeforeEach public void setUpEachTest() {driver = new ChromeDriver();} */
         Configuration.browserSize = screenSize.width + "x" + screenSize.height;
         Configuration.headless = false;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
@@ -39,7 +38,6 @@ abstract public class SelenideAbstractClass { /* This class is to be only inheri
     }
     @AfterEach
     public void tearDown() {
-        Selenide.closeWebDriver();/* To explicitly close the WebDriver instance. */
-        /* Selenide by default creates the WebDriver instance for each test and closes only browser window after the test is done. */
+        Selenide.closeWebDriver();
     }
 }
