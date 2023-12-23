@@ -40,12 +40,11 @@ Reqiured components to be installed on your machine:
 
 Create ".env" file in the root directory:
 ```
-#Set the value for configuration variable in the following format: "postgresql+db_adapter://postgres_user:postgres_password@host:port/postgres_db"
-SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:password_defined_during_postgres_installation@postgres:5432/postgres
+SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:defined_password@postgres:5432/postgres
 #As Docker provides a DNS resolver for containers, hostname "postgres" must remain unchanged because it serves as name for db service in docker-compose.yml file
-JWT_SECRET_KEY=any_word
+JWT_SECRET_KEY=define_any_word
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password_defined_during_postgres_installation
+POSTGRES_PASSWORD=define_password
 POSTGRES_DB=postgres
 ```
 
