@@ -6,6 +6,8 @@ import readProperties.ConfigProvider;
 import static com.codeborne.selenide.Selenide.$x;
 import prepareTestEnvironment.PrepareTestEnvironment;
 
+import java.util.Map;
+
 public class LoginPage {
 
     /* Elements present on WelcomePage */
@@ -41,7 +43,7 @@ public class LoginPage {
 
 
     public static void login() {
-        var jsonResponseAsMap = PrepareTestEnvironment.getJsonResponseAsMap();
+        Map<String,String> jsonResponseAsMap = PrepareTestEnvironment.getJsonResponseAsMap();
         String jwtAccessToken = jsonResponseAsMap.get("access token");
 
         PrepareTestEnvironment.emptyAppBeforeTests(jwtAccessToken);

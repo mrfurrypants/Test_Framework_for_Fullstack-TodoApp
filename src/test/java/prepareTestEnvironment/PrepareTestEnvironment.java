@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 
+import io.restassured.response.Response;
 import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.WebStorage;
 import readProperties.ConfigProvider;
@@ -29,21 +30,47 @@ public class PrepareTestEnvironment {
         localStorage.setItem("loggedAppUser", jsonPayload);
     }
 
-    public static Map<String,String> getJsonResponseAsMap() {
-        return given()
+    public static Response getResponse(int attempt) {
+        final int MAX_ATTEMPTS = 4;
+        if (attempt > MAX_ATTEMPTS) {
+            // Throw an exception or return an error response
+            throw new RuntimeException("Maximum number of attempts exceeded, choose other credentials.");
+        }
+        Response response = given()
                 .baseUri(ConfigProvider.URL)
                 .header("Content-Type", "application/json")
-                .body("{\"email\":\"" +
-                        ConfigProvider.VALID_EMAIL +
-                        "\",\"password\":\"" +
-                        ConfigProvider.VALID_PASSWORD +
-                        "\"}")
+                .body("{\"email\": \""+ ConfigProvider.VALID_EMAIL +"\", \"password\": \""+ ConfigProvider.VALID_PASSWORD +"\"}")
                 .when()
                 .post("api/auth/login")
                 .then()
-                .statusCode(200)
+//                .statusCode(200)
                 .contentType(ContentType.JSON)
-                .extract().body().jsonPath().getMap("");
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        if(statusCode == 200) {
+            return response;
+        } else {
+            System.out.println("User under credentials from .conf is not registered yet. Registration...");
+            registerNewUser();
+            return getResponse(attempt + 1);
+        }
+    }
+
+    public static void registerNewUser() {
+        given()
+                .baseUri(ConfigProvider.URL)
+                .header("Content-Type", "application/json")
+                .body("{\"name\": \""+ ConfigProvider.USER_NAME +"\", \"email\": \""+ ConfigProvider.VALID_EMAIL +"\", \"password\": \""+ ConfigProvider.VALID_PASSWORD +"\"}")
+                .when()
+                .post("api/auth/register")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON);
+    }
+
+    public static Map<String,String> getJsonResponseAsMap() {
+        return getResponse(1).jsonPath().getMap("");
     }
 
     public static void deleteSingleProject(Integer projectID, String jwtAccessToken) {

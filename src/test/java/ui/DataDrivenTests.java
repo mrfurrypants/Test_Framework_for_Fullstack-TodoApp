@@ -18,6 +18,7 @@ import ui.Page_Objects.ProjectsPage;
 import ui.Page_Objects.TasksPage;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -34,7 +35,7 @@ public class DataDrivenTests {
     private static boolean executed = false;
     @BeforeEach
     public void setUpEachParametrizedTestInvocation() {
-        var jsonResponseAsMap = PrepareTestEnvironment.getJsonResponseAsMap();
+        Map<String,String> jsonResponseAsMap = PrepareTestEnvironment.getJsonResponseAsMap();
         String jwtAccessToken = jsonResponseAsMap.get("access token");
 
         if (!executed) {
