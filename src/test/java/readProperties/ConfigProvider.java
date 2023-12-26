@@ -7,6 +7,7 @@ public interface ConfigProvider {
     static Config readConfig(){
         return ConfigFactory.load("tests.conf");
     }
+    String BROWSER = readConfig().getString("browser");
     String URL = readConfig().getString("url");
     String USER_NAME = readConfig().getString("user_name");
     String VALID_EMAIL = readConfig().getString("usersCreds.validCredentials.email");

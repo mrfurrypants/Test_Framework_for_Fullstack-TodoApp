@@ -8,6 +8,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import prepareTestEnvironment.PrepareTestEnvironment;
@@ -55,8 +57,18 @@ public class DataDrivenTests {
     }
     @BeforeAll
     public static void setUp() {
-        WebDriverManager.chromedriver().setup();
-        Configuration.browser = "chrome";
+//        WebDriverManager.chromedriver().setup();
+
+        if(ConfigProvider.BROWSER.equalsIgnoreCase("chrome")) {
+            Configuration.browser = "chrome";
+        }
+        else if(ConfigProvider.BROWSER.equalsIgnoreCase("firefox")) {
+            Configuration.browser = "firefox";
+        }
+        else if(ConfigProvider.BROWSER.equalsIgnoreCase("edge")) {
+            Configuration.browser = "edge";
+        }
+
         Configuration.browserSize = screenSize.width + "x" + screenSize.height;
         Configuration.headless = false;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
@@ -64,6 +76,7 @@ public class DataDrivenTests {
     public static Stream<tasks_providerPOJO1> streamForParameterizedTest() {
         return xlsxDataToListOfPOJOs("tasks_provider.xlsx", tasks_providerPOJO1.class).stream();
     }
+    @Execution(ExecutionMode.CONCURRENT)
     @ParameterizedTest(name = "Invocation N°{index}")
     @MethodSource("streamForParameterizedTest")
     @Tag("DataDrivenTest")

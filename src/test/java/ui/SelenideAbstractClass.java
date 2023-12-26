@@ -11,23 +11,25 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import readProperties.ConfigProvider;
-
 import java.awt.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
-import static io.restassured.RestAssured.given;
 
 abstract public class SelenideAbstractClass {
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     @BeforeAll
     public static void setUp() {
-        WebDriverManager.chromedriver().setup();
-        Configuration.browser = "chrome";
-        /* By default Selenide launches the firefox browser. */
+//        WebDriverManager.chromedriver().setup();
+        if(ConfigProvider.BROWSER.equalsIgnoreCase("chrome")) {
+            Configuration.browser = "chrome";
+        }
+        else if(ConfigProvider.BROWSER.equalsIgnoreCase("firefox")) {
+            Configuration.browser = "firefox";
+        }
+        else if(ConfigProvider.BROWSER.equalsIgnoreCase("edge")) {
+            Configuration.browser = "edge";
+        }
+
         Configuration.browserSize = screenSize.width + "x" + screenSize.height;
         Configuration.headless = false;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));

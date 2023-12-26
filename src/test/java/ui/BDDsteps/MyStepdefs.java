@@ -12,15 +12,39 @@ import readProperties.ConfigProvider;
 import ui.Page_Objects.LoginPage;
 import ui.Page_Objects.ProjectsPage;
 import ui.Page_Objects.TasksPage;
-
 import java.awt.*;
-
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 
 public class MyStepdefs {
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    /* Steps before each scenario. */
+    /*---------------------Global Cucumber set-ups and tear-downs.---------------------*/
+    @AfterStep
+    public void makeScreenshot() {
+        Selenide.screenshot(System.currentTimeMillis() + " step");
+    }
+    @After
+    public void tearDown() {
+        Selenide.closeWebDriver();
+    }
+    @BeforeAll
+    public static void setUpOnceBeforeAllScenarios() {
+//        WebDriverManager.chromedriver().setup();
+
+        if(ConfigProvider.BROWSER.equalsIgnoreCase("chrome")) {
+            Configuration.browser = "chrome";
+        }
+        else if(ConfigProvider.BROWSER.equalsIgnoreCase("firefox")) {
+            Configuration.browser = "firefox";
+        }
+        else if(ConfigProvider.BROWSER.equalsIgnoreCase("edge")) {
+            Configuration.browser = "edge";
+        }
+
+        Configuration.browserSize = screenSize.width + "x" + screenSize.height;
+        Configuration.headless = false;
+    }
+    /*---------------------Steps before each scenario.---------------------*/
     @Given("The user navigated to the 'Main' page")
     public void theUserNavigatesToThePage() {
         Selenide.open(ConfigProvider.URL);
@@ -57,12 +81,10 @@ public class MyStepdefs {
     public void theUserClicksSaveButton() {
         ProjectsPage.clickSave_button();
     }
-
     @And("The user enters Project Description")
     public void theUserEntersProjectDescription() {
         ProjectsPage.inputProjectDescription_field();
     }
-
     @When("The user clicks 'New Project' button")
     public void theUserClicksNewProjectButton() {
         ProjectsPage.clickNewProject_button();
@@ -89,24 +111,6 @@ public class MyStepdefs {
     public void theUserShouldSeeThePopUpValidationMessage() {
         LoginPage.getValidation_popup().shouldBe(visible);
     }
-    /*---------------------Global Cucumber setups and teardowns---------------------------*/
-    @AfterStep
-    public void makeScreenshot() {
-        Selenide.screenshot(System.currentTimeMillis() + " step");
-    }
-    @After
-    public void tearDown() {
-        Selenide.closeWebDriver();
-    }
-
-    @BeforeAll
-    public static void setUpOnceBeforeAllScenarios() {
-        WebDriverManager.chromedriver().setup();
-        Configuration.browser = "chrome";
-        Configuration.browserSize = screenSize.width + "x" + screenSize.height;
-        Configuration.headless = false;
-    }
-
     @Given("The user is logged in and on the 'Projects' page")
     public void theUserIsLoggedInAndOnTheProjectsPage() {
         LoginPage.login();

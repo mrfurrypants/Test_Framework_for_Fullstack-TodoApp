@@ -4,16 +4,13 @@ import com.codeborne.selenide.WebDriverRunner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
-
 import io.restassured.response.Response;
 import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.WebStorage;
 import readProperties.ConfigProvider;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static io.restassured.RestAssured.given;
 
 public class PrepareTestEnvironment {
