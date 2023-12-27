@@ -12,6 +12,7 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import prepareTestEnvironment.PrepareTestEnvironment;
 import readDataFromXLSX.tasks_providerPOJO1;
 import readProperties.ConfigProvider;
@@ -20,6 +21,7 @@ import ui.Page_Objects.ProjectsPage;
 import ui.Page_Objects.TasksPage;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +35,7 @@ import static readDataFromXLSX.XLSX_to_POJOs.xlsxDataToListOfPOJOs;
 
 @ExtendWith(ScreenShooterExtension.class)
 public class DataDrivenTests {
-    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static boolean executed = false;
     @BeforeEach
     public void setUpEachParametrizedTestInvocation() {
@@ -44,11 +46,11 @@ public class DataDrivenTests {
             PrepareTestEnvironment.emptyAppBeforeTests(jwtAccessToken);
         }
 
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
 
         PrepareTestEnvironment.setJwtToLocalStorage(jsonResponseAsMap);
 
-        Selenide.open(ConfigProvider.URL + "#/tasks");
+        Selenide.open(ConfigProvider.URL_UI + "#/tasks");
         Selenide.refresh();
     }
     @AfterEach
@@ -59,18 +61,28 @@ public class DataDrivenTests {
     public static void setUp() {
 //        WebDriverManager.chromedriver().setup();
 
-        if(ConfigProvider.BROWSER.equalsIgnoreCase("chrome")) {
+        if (ConfigProvider.BROWSER.equalsIgnoreCase("chrome")) {
             Configuration.browser = "chrome";
-        }
-        else if(ConfigProvider.BROWSER.equalsIgnoreCase("firefox")) {
+        } else if (ConfigProvider.BROWSER.equalsIgnoreCase("firefox")) {
             Configuration.browser = "firefox";
-        }
-        else if(ConfigProvider.BROWSER.equalsIgnoreCase("edge")) {
+        } else if (ConfigProvider.BROWSER.equalsIgnoreCase("edge")) {
             Configuration.browser = "edge";
         }
 
-        Configuration.browserSize = screenSize.width + "x" + screenSize.height;
-        Configuration.headless = false;
+        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("remote")) {
+            Configuration.browserCapabilities = new DesiredCapabilities();
+            Configuration.browserCapabilities.setCapability("selenoid:options", new HashMap<String, Object>() {{
+            put("browserVersion", "120.0");
+            put("sessionTimeout", "15m");
+            put("enableVNC", true);
+            put("enableVideo", false);
+            put("screenResolution", "1920x1080");
+            put("browserSize", "1920x1080");
+            put("startMaximized", true);
+            }});
+            Configuration.remote = "http://localhost:4445/wd/hub";
+        }
+
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
     }
     public static Stream<tasks_providerPOJO1> streamForParameterizedTest() {
@@ -97,6 +109,7 @@ public class DataDrivenTests {
         TasksPage.selectLatestProjectFrom_dropdown();
         TasksPage.inputDescription_textarea(row.getDescription());
         TasksPage.clickSave_button();
+        delay();
         delay();
         String actualTaskTitle = $x(TasksPage.getTask_block_xpath() + "[last()]/h3").getText().split("\n")[0];
         assertEquals(row.getTask_title(), actualTaskTitle);

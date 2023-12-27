@@ -1,13 +1,19 @@
 package prepareTestEnvironment;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.WebStorage;
+import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import readProperties.ConfigProvider;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,7 +29,16 @@ public class PrepareTestEnvironment {
             e.printStackTrace();
         }
 
-        LocalStorage localStorage = ((WebStorage) WebDriverRunner.getWebDriver()).getLocalStorage();
+        WebDriver driver = WebDriverRunner.getWebDriver();
+        LocalStorage localStorage = null;
+
+        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("remote")) {
+            WebStorage webStorage = (WebStorage) new Augmenter().augment(driver);
+            localStorage = webStorage.getLocalStorage();
+        } else {
+            localStorage = ((WebStorage) driver).getLocalStorage();
+        }
+
         localStorage.setItem("loggedAppUser", jsonPayload);
     }
 
@@ -34,7 +49,7 @@ public class PrepareTestEnvironment {
             throw new RuntimeException("Maximum number of attempts exceeded, choose other credentials.");
         }
         Response response = given()
-                .baseUri(ConfigProvider.URL)
+                .baseUri(ConfigProvider.URL_API)
                 .header("Content-Type", "application/json")
                 .body("{\"email\": \""+ ConfigProvider.VALID_EMAIL +"\", \"password\": \""+ ConfigProvider.VALID_PASSWORD +"\"}")
                 .when()
@@ -56,7 +71,7 @@ public class PrepareTestEnvironment {
 
     public static void registerNewUser() {
         given()
-                .baseUri(ConfigProvider.URL)
+                .baseUri(ConfigProvider.URL_API)
                 .header("Content-Type", "application/json")
                 .body("{\"name\": \""+ ConfigProvider.USER_NAME +"\", \"email\": \""+ ConfigProvider.VALID_EMAIL +"\", \"password\": \""+ ConfigProvider.VALID_PASSWORD +"\"}")
                 .when()
@@ -72,7 +87,7 @@ public class PrepareTestEnvironment {
 
     public static void deleteSingleProject(Integer projectID, String jwtAccessToken) {
         given()
-                .baseUri(ConfigProvider.URL)
+                .baseUri(ConfigProvider.URL_API)
                 .header("Authorization", "Bearer " + jwtAccessToken)
                 .when()
                 .delete("api/projects/" + projectID)
@@ -84,7 +99,7 @@ public class PrepareTestEnvironment {
     public static void emptyAppBeforeTests(String jwtAccessToken) {
         java.util.List<ListProjects_GET_ResponsePOJO> projects =
                 given()
-                        .baseUri(ConfigProvider.URL)
+                        .baseUri(ConfigProvider.URL_API)
                         .header("Authorization","Bearer " + jwtAccessToken)
                         .when()
                         .get("api/projects")

@@ -1,8 +1,10 @@
 package ui.Page_Objects;
 
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.Select;
 import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class TasksPage {
     /* Elements present in the header of TasksPage */
@@ -43,6 +45,7 @@ public class TasksPage {
     }
     private static int tasksCounter1 = 1;
     public static void inputTaskTitle_field() {
+        taskTitle_field.clear();
         taskTitle_field.sendKeys("Task " + tasksCounter1);
         tasksCounter1++;
     }
@@ -51,7 +54,10 @@ public class TasksPage {
         taskTitle_field.sendKeys(title);
     }
     public static void inputDueDate_field() {
-        dueDate_field.sendKeys("23022019");
+        dueDate_field.clear();
+        dueDate_field.sendKeys("27122023");
+        dueDate_field.sendKeys(Keys.ENTER);
+//        executeJavaScript("arguments[0].value = arguments[1]", dueDate_field, "2023-12-27");
     }
     public static void inputDueDate_field(String date) {
         dueDate_field.clear();
@@ -64,6 +70,7 @@ public class TasksPage {
     }
     private static int tasksCounter2 = 1;
     public static void inputDescription_textarea() {
+        description_textarea.clear();
         description_textarea.sendKeys("This is description for task " + tasksCounter2);
         tasksCounter2++;
     }

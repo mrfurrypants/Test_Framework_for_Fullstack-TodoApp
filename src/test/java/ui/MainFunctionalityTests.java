@@ -17,7 +17,6 @@ import ui.Page_Objects.TasksPage;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @TestMethodOrder(OrderAnnotation.class)
-@ExtendWith(ScreenShooterExtension.class)
 public class MainFunctionalityTests extends SelenideAbstractClass {
     @Disabled
     @Order(1)
@@ -25,7 +24,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("PositiveTest")
     @Test
     public void test01_signupWithFreeCredentials() {
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
         LoginPage.clickGetstarted_button();
         LoginPage.clickSignup_button();
         RegisterPage.enterName(ConfigProvider.USER_NAME);
@@ -40,7 +39,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test02_signupWithTakenCredentials() {
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
         LoginPage.clickGetstarted_button();
         LoginPage.clickSignup_button();
         RegisterPage.enterName(ConfigProvider.USER_NAME);
@@ -55,7 +54,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("PositiveTest")
     @Test
     public void test03_loginWithValidCredentials() {
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.VALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.VALID_PASSWORD);
@@ -67,7 +66,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test04_loginWithInvalidEmail() {
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.INVALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.VALID_PASSWORD);
@@ -79,7 +78,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test05_loginWithInvalidPassword() {
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.VALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.INVALID_PASSWORD);
@@ -91,7 +90,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test06_loginWithInvalidCredentials() {
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.INVALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.INVALID_PASSWORD);
@@ -123,6 +122,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.inputProjectName_field("Hello1");
         ProjectsPage.inputProjectDescription_field("Hello1");
         ProjectsPage.clickSave_button();
+        delay();
         String actualProjectTitle = $x(ProjectsPage.getProject_block_xpath() + "/h3").getText();
         String actualProjectDescription = $x(ProjectsPage.getProject_block_xpath() + "/p").getText();
         assertAll(
@@ -152,8 +152,8 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.addProject();
         ProjectsPage.clickTask_button();
         TasksPage.clickNewTask_button();
-        TasksPage.inputTaskTitle_field();
         TasksPage.inputDueDate_field();
+        TasksPage.inputTaskTitle_field();
         TasksPage.selectLatestProjectFrom_dropdown();
         TasksPage.inputDescription_textarea();
         TasksPage.clickSave_button();
@@ -188,6 +188,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         TasksPage.inputDueDate_field("23022020");
         TasksPage.inputDescription_textarea("Qwerty");
         TasksPage.clickSave_button();
+        delay();
         String actualTaskTitle = $x(TasksPage.getTask_block_xpath() + "/h3").getText().split("\n")[0];
         String actualTaskDate = $x(TasksPage.getTask_block_xpath() + "/p[1]").getText().replaceAll("(\\D+)", "");
         String actualTaskDescription = $x(TasksPage.getTask_block_xpath() + "/p[2]").getText();
@@ -208,6 +209,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.clickTask_button();
         TasksPage.addTaskToLatestProject();
         TasksPage.clickLatestCheckmark_button();
+        delay();
         String attribute = TasksPage.getTask_block().getAttribute("class");
         String classTag = "bg-base-100 shadow-xl border-secondary border-solid border-2 rounded-md text-left p-3 mb-3";
         assertEquals(attribute, classTag + " line-through", "Task wasn't crossed out");
@@ -226,12 +228,16 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         TasksPage.addTasksToProjects(1);
         TasksPage.addTasksToProjects(2);
         TasksPage.addTasksToProjects(3);
+        delay();
         assertEquals(3, $$x(TasksPage.getTask_block_xpath()).size());
         TasksPage.clickFilterProject_button(1);
+        delay();
         assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
         TasksPage.clickFilterProject_button(2);
+        delay();
         assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
         TasksPage.clickFilterProject_button(3);
+        delay();
         assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
     }
 }

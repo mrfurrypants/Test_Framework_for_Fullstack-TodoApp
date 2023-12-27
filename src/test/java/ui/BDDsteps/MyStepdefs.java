@@ -8,16 +8,19 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import readProperties.ConfigProvider;
 import ui.Page_Objects.LoginPage;
 import ui.Page_Objects.ProjectsPage;
 import ui.Page_Objects.TasksPage;
 import java.awt.*;
+import java.util.HashMap;
+
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 
 public class MyStepdefs {
-    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     /*---------------------Global Cucumber set-ups and tear-downs.---------------------*/
     @AfterStep
     public void makeScreenshot() {
@@ -41,13 +44,24 @@ public class MyStepdefs {
             Configuration.browser = "edge";
         }
 
-        Configuration.browserSize = screenSize.width + "x" + screenSize.height;
-        Configuration.headless = false;
+        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("remote")) {
+            Configuration.browserCapabilities = new DesiredCapabilities();
+            Configuration.browserCapabilities.setCapability("selenoid:options", new HashMap<String, Object>() {{
+                put("browserVersion", "120.0");
+                put("sessionTimeout", "15m");
+                put("enableVNC", true);
+                put("enableVideo", false);
+                put("screenResolution", "1920x1080");
+                put("browserSize", "1920x1080");
+                put("startMaximized", true);
+            }});
+            Configuration.remote = "http://localhost:4445/wd/hub";
+        }
     }
     /*---------------------Steps before each scenario.---------------------*/
     @Given("The user navigated to the 'Main' page")
     public void theUserNavigatesToThePage() {
-        Selenide.open(ConfigProvider.URL);
+        Selenide.open(ConfigProvider.URL_UI);
     }
 
     @When("The user clicks 'Get started' button")
