@@ -46,11 +46,11 @@ public class DataDrivenTests {
             PrepareTestEnvironment.emptyAppBeforeTests(jwtAccessToken);
         }
 
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
 
         PrepareTestEnvironment.setJwtToLocalStorage(jsonResponseAsMap);
 
-        Selenide.open(ConfigProvider.URL_UI + "#/tasks");
+        Selenide.open(ConfigProvider.url_ui() + "#/tasks");
         Selenide.refresh();
     }
     @AfterEach
@@ -69,7 +69,7 @@ public class DataDrivenTests {
             Configuration.browser = "edge";
         }
 
-        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("remote")) {
+        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("docker_run")) {
             Configuration.browserCapabilities = new DesiredCapabilities();
             Configuration.browserCapabilities.setCapability("selenoid:options", new HashMap<String, Object>() {{
             put("browserVersion", "120.0");
@@ -80,7 +80,7 @@ public class DataDrivenTests {
             put("browserSize", "1920x1080");
             put("startMaximized", true);
             }});
-            Configuration.remote = "http://localhost:4445/wd/hub";
+            Configuration.remote = ConfigProvider.URL_REMOTE;
         }
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));

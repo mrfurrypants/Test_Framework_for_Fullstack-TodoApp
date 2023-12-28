@@ -24,7 +24,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("PositiveTest")
     @Test
     public void test01_signupWithFreeCredentials() {
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
         LoginPage.clickGetstarted_button();
         LoginPage.clickSignup_button();
         RegisterPage.enterName(ConfigProvider.USER_NAME);
@@ -39,7 +39,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test02_signupWithTakenCredentials() {
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
         LoginPage.clickGetstarted_button();
         LoginPage.clickSignup_button();
         RegisterPage.enterName(ConfigProvider.USER_NAME);
@@ -54,7 +54,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("PositiveTest")
     @Test
     public void test03_loginWithValidCredentials() {
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.VALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.VALID_PASSWORD);
@@ -66,7 +66,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test04_loginWithInvalidEmail() {
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.INVALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.VALID_PASSWORD);
@@ -78,7 +78,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test05_loginWithInvalidPassword() {
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.VALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.INVALID_PASSWORD);
@@ -90,7 +90,7 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
     @Tag("NegativeTest")
     @Test
     public void test06_loginWithInvalidCredentials() {
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
         LoginPage.clickGetstarted_button();
         LoginPage.enterEmail(ConfigProvider.INVALID_EMAIL);
         LoginPage.enterPassword(ConfigProvider.INVALID_PASSWORD);
@@ -152,8 +152,8 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         ProjectsPage.addProject();
         ProjectsPage.clickTask_button();
         TasksPage.clickNewTask_button();
-        TasksPage.inputDueDate_field();
         TasksPage.inputTaskTitle_field();
+        TasksPage.inputDueDate_field();
         TasksPage.selectLatestProjectFrom_dropdown();
         TasksPage.inputDescription_textarea();
         TasksPage.clickSave_button();
@@ -239,5 +239,16 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         TasksPage.clickFilterProject_button(3);
         delay();
         assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
+    }
+
+    @Test
+    public void test_debugging() {
+        LoginPage.login();
+        TasksPage.clickProject_button();
+        ProjectsPage.clickNewProject_button();
+        ProjectsPage.inputProjectName_field();
+        ProjectsPage.inputProjectDescription_field();
+        ProjectsPage.clickSave_button();
+        ProjectsPage.getProject_block().shouldBe(visible);
     }
 }

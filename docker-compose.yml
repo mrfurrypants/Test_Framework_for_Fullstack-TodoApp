@@ -1,47 +1,57 @@
-# To execute this docker-compose yml file use `docker-compose -f docker-compose-v2.yml up`
-# Add the `-d` flag at the end for detached execution
-# To stop the execution, hit Ctrl+C, and then `docker-compose -f docker-compose-v2.yml down`
-version: '2'
+version: '3'
+networks:
+  selenoid:
+    name: selenoid
+    external: true
 services:
-  chrome:
-    image: selenium/node-chrome:4.16.1-20231219
-    shm_size: 2gb
-    depends_on:
-      - selenium-hub
+  selenoid:
+    container_name: selenoid
+    image: "aerokube/selenoid:latest"
+    ports:
+      - "4445:4444"
+    networks:
+      - selenoid
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ".:/etc/selenoid"
+      - "./logs:/opt/selenoid/logs"
+      - "./target:/opt/selenoid/video"
+      - "./target:/output"
     environment:
-      - SE_EVENT_BUS_HOST=selenium-hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - "OVERRIDE_VIDEO_OUTPUT_DIR=$PWD/target"
+    command: ["-conf", "/etc/selenoid/browsers.json", "-video-output-dir", "/opt/selenoid/video", "-log-output-dir", "/opt/selenoid/logs", "-container-network", "selenoid"]
+  selenoid-ui:
+    image: "aerokube/selenoid-ui:latest"
+    container_name: selenoid-ui
+    links:
+      - selenoid
     ports:
-      - "6900:5900"
-
-  edge:
-    image: selenium/node-edge:4.16.1-20231219
-    shm_size: 2gb
+      - "8083:8080"
+    networks:
+      - selenoid
+    command: ["--selenoid-uri", "http://selenoid:4444"]
+  chrome_120.0:
+    image: "selenoid/vnc:chrome_120.0"
+    container_name: chrome_120.0
+    links:
+      - selenoid
+      - selenoid-ui
     depends_on:
-      - selenium-hub
-    environment:
-      - SE_EVENT_BUS_HOST=selenium-hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-    ports:
-      - "6901:5900"
-
-  firefox:
-    image: selenium/node-firefox:4.16.1-20231219
-    shm_size: 2gb
+      - selenoid
+      - selenoid-ui
+    networks:
+      - selenoid
+    volumes:
+      - "/dev/shm:/dev/shm"
+  test_framework:
+    build: .
+    image: test_framework_img
     depends_on:
-      - selenium-hub
-    environment:
-      - SE_EVENT_BUS_HOST=selenium-hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-    ports:
-      - "6902:5900"
-
-  selenium-hub:
-    image: selenium/hub:4.16.1-20231219
-    ports:
-      - "4442:4442"
-      - "4443:4443"
-      - "4444:4444"
+      - selenoid
+      - selenoid-ui
+      - chrome_120.0
+    networks:
+      - selenoid
+    volumes:
+      - ./:/usr/src/test_framework
+      - /dev/shm:/dev/shm

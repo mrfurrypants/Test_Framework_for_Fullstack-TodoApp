@@ -48,11 +48,11 @@ public class LoginPage {
 
         PrepareTestEnvironment.emptyAppBeforeTests(jwtAccessToken);
 
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
 
         PrepareTestEnvironment.setJwtToLocalStorage(jsonResponseAsMap);
 
-        Selenide.open(ConfigProvider.URL_UI + "#/tasks");
+        Selenide.open(ConfigProvider.url_ui() + "#/tasks");
         Selenide.refresh();
     }
 }

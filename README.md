@@ -63,7 +63,7 @@ mvn clean test
 ```
 - to run specific test class:
 ```
-mvn clean test -Dtest=CucumberUITestsRunner
+mvn clean test -Dtest=CucumberUIRunnerTests
 ```
 ```
 mvn clean test -Dtest=MainFunctionalityTests

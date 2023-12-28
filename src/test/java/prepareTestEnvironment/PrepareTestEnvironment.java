@@ -32,7 +32,7 @@ public class PrepareTestEnvironment {
         WebDriver driver = WebDriverRunner.getWebDriver();
         LocalStorage localStorage = null;
 
-        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("remote")) {
+        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("docker_run")) {
             WebStorage webStorage = (WebStorage) new Augmenter().augment(driver);
             localStorage = webStorage.getLocalStorage();
         } else {
@@ -49,7 +49,7 @@ public class PrepareTestEnvironment {
             throw new RuntimeException("Maximum number of attempts exceeded, choose other credentials.");
         }
         Response response = given()
-                .baseUri(ConfigProvider.URL_API)
+                .baseUri(ConfigProvider.url_api())
                 .header("Content-Type", "application/json")
                 .body("{\"email\": \""+ ConfigProvider.VALID_EMAIL +"\", \"password\": \""+ ConfigProvider.VALID_PASSWORD +"\"}")
                 .when()
@@ -71,7 +71,7 @@ public class PrepareTestEnvironment {
 
     public static void registerNewUser() {
         given()
-                .baseUri(ConfigProvider.URL_API)
+                .baseUri(ConfigProvider.url_api())
                 .header("Content-Type", "application/json")
                 .body("{\"name\": \""+ ConfigProvider.USER_NAME +"\", \"email\": \""+ ConfigProvider.VALID_EMAIL +"\", \"password\": \""+ ConfigProvider.VALID_PASSWORD +"\"}")
                 .when()
@@ -87,7 +87,7 @@ public class PrepareTestEnvironment {
 
     public static void deleteSingleProject(Integer projectID, String jwtAccessToken) {
         given()
-                .baseUri(ConfigProvider.URL_API)
+                .baseUri(ConfigProvider.url_api())
                 .header("Authorization", "Bearer " + jwtAccessToken)
                 .when()
                 .delete("api/projects/" + projectID)
@@ -99,7 +99,7 @@ public class PrepareTestEnvironment {
     public static void emptyAppBeforeTests(String jwtAccessToken) {
         java.util.List<ListProjects_GET_ResponsePOJO> projects =
                 given()
-                        .baseUri(ConfigProvider.URL_API)
+                        .baseUri(ConfigProvider.url_api())
                         .header("Authorization","Bearer " + jwtAccessToken)
                         .when()
                         .get("api/projects")

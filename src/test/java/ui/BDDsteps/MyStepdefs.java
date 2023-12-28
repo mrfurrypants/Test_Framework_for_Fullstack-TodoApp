@@ -44,7 +44,7 @@ public class MyStepdefs {
             Configuration.browser = "edge";
         }
 
-        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("remote")) {
+        if(ConfigProvider.EXECUTION_MODE.equalsIgnoreCase("docker_run")) {
             Configuration.browserCapabilities = new DesiredCapabilities();
             Configuration.browserCapabilities.setCapability("selenoid:options", new HashMap<String, Object>() {{
                 put("browserVersion", "120.0");
@@ -55,13 +55,13 @@ public class MyStepdefs {
                 put("browserSize", "1920x1080");
                 put("startMaximized", true);
             }});
-            Configuration.remote = "http://localhost:4445/wd/hub";
+            Configuration.remote = ConfigProvider.URL_REMOTE;
         }
     }
     /*---------------------Steps before each scenario.---------------------*/
     @Given("The user navigated to the 'Main' page")
     public void theUserNavigatesToThePage() {
-        Selenide.open(ConfigProvider.URL_UI);
+        Selenide.open(ConfigProvider.url_ui());
     }
 
     @When("The user clicks 'Get started' button")
