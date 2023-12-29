@@ -1,6 +1,6 @@
 ## Project Overview
 
-This __Java__ based project is a testing framework for [Fullstack-TodoApp](https://github.com/naputami/Fullstack-TodoApp).
+This __Java__ based project is a testing framework for [Fullstack-TodoApp](https://github.com/naputami/Fullstack-TodoApp) and is used for demonstration purposes.
 
 Essential modules of this __Java__ project: _Apache Maven_, _JUnit 5_, _Selenide_, _Cucumber_, _REST-Assured_, _Allure Report_.  
 
@@ -11,7 +11,7 @@ Key features of the project:
 ### - E2E Testing:
 Standard __JUnit 5__ __Selenide__ UI tests covering the main app functionality.
 ### - Page Object Model Design Pattern:
-Each web page is represented by separate Page Class which encapsulates WebElements and operations on them.
+Each web page is represented by separate Page Class which encapsulates SelenideElements and operations on them.
 ### - BDD (Behavior-driven development):
 __Cucumber__ framework layer is added on top of existing __JUnit 5__ __Selenide__ UI tests by creating separate __Cucumber__ test runner class for __Cucumber__ feature files.
 ### - Test environment preparation:
@@ -25,7 +25,7 @@ Loading and managing log-in data, browsers, URLs and etc. in configuration files
 ### - Test Reporting:
 __Allure Report__ is integrated with __JUnit 5__, __Selenide__ and __Cucumber__ project modules to create fancy and clear testing reports.
 ### - Containerization & Cross Browser Testing:
-__Docker__ is user here as option to execute test code in separate container and run tests in one of browser nodes (Chrome or Firefox) connected with __Selenoid__ container through __Docker Compose__.
+__Docker__ is user here as option to execute test code in separate isolated container and run tests in one of browser node container (Chrome or Firefox) connected with __Selenoid__ container through __Docker Compose__.
 
 ## Prerequisites
 
@@ -88,7 +88,7 @@ mvn clean test -Dtest=DataDrivenTests
 ```
 mvn allure:serve
 ```
-__Several tests may fail due to some of them are flaky!__
+__Several tests may fail since some of them are flaky!__
 
 ![allure](./images_in_readme/allure.png "Several tests may fail due to some of them are flaky!")
 
@@ -107,6 +107,8 @@ In the command line you can observe the process logs inside containers in real t
 ![start](./images_in_readme/start.png "start")
 
 - Tests result
+
+__Several tests may fail since some of them are flaky!__
 
 ![result](./images_in_readme/results.png "results")
 
