@@ -60,6 +60,7 @@ public class DataDrivenTests {
     @BeforeAll
     public static void setUp() {
 //        WebDriverManager.chromedriver().setup();
+//        Configuration.headless = true;
 
         if (ConfigProvider.BROWSER.equalsIgnoreCase("chrome")) {
             Configuration.browser = "chrome";

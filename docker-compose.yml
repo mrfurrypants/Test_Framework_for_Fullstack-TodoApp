@@ -43,6 +43,19 @@ services:
       - selenoid
     volumes:
       - "/dev/shm:/dev/shm"
+  firefox_120.0:
+    image: "selenoid/vnc:firefox_120.0"
+    container_name: firefox_120.0
+    links:
+      - selenoid
+      - selenoid-ui
+    depends_on:
+      - selenoid
+      - selenoid-ui
+    networks:
+      - selenoid
+    volumes:
+      - "/dev/shm:/dev/shm"
   test_framework:
     build: .
     image: test_framework_img
@@ -50,6 +63,7 @@ services:
       - selenoid
       - selenoid-ui
       - chrome_120.0
+      - firefox_120.0
     networks:
       - selenoid
     volumes:

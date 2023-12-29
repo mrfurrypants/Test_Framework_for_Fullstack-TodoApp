@@ -240,15 +240,4 @@ public class MainFunctionalityTests extends SelenideAbstractClass {
         delay();
         assertEquals(1, $$x(TasksPage.getTask_block_xpath()).size());
     }
-
-    @Test
-    public void test_debugging() {
-        LoginPage.login();
-        TasksPage.clickProject_button();
-        ProjectsPage.clickNewProject_button();
-        ProjectsPage.inputProjectName_field();
-        ProjectsPage.inputProjectDescription_field();
-        ProjectsPage.clickSave_button();
-        ProjectsPage.getProject_block().shouldBe(visible);
-    }
 }

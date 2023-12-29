@@ -33,6 +33,7 @@ public class MyStepdefs {
     @BeforeAll
     public static void setUpOnceBeforeAllScenarios() {
 //        WebDriverManager.chromedriver().setup();
+//        Configuration.headless = true;
 
         if(ConfigProvider.BROWSER.equalsIgnoreCase("chrome")) {
             Configuration.browser = "chrome";
