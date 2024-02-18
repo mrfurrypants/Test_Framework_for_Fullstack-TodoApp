@@ -25,7 +25,6 @@ public class PrepareTestEnvironment {
         String jsonPayload = null;
         try {
             jsonPayload = objectMapper.writeValueAsString(jsonResponseAsMap);
-            /*Serialize a Java object into its JSON representation as a String.*/
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
